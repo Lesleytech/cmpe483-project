@@ -78,7 +78,7 @@ elseif (isset($_POST["register"])) {
         header("Location: ../login.php");
     }
 } elseif (isset($_POST["add-product"])) {
-    if (!isAdmin()) die("Forbidden");
+    if (!isAdmin()) die("403: Access denied");
 
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $model = mysqli_real_escape_string($conn, $_POST["model"]);
@@ -98,6 +98,48 @@ elseif (isset($_POST["register"])) {
     }
 
     header("Location: ../products.php");
+} elseif (isset($_POST["update-product"]) && isset($_GET["product-id"])) {
+    if (!isAdmin()) die ("403: Access denied");
+
+    $productId = $_GET["product-id"];
+
+    $name = mysqli_real_escape_string($conn, $_POST["name"]);
+    $model = mysqli_real_escape_string($conn, $_POST["model"]);
+    $brand = mysqli_real_escape_string($conn, $_POST["brand"]);
+    $description = mysqli_real_escape_string($conn, $_POST["description"]);
+    $price = mysqli_real_escape_string($conn, $_POST["price"]);
+
+    $sql = "UPDATE product SET name = '$name', model = '$model', brand = '$brand', description = '$description', price = '$price'
+    WHERE id = '$productId';";
+    $res = $conn->query($sql);
+
+    if ($res) {
+        setSessionAlert("Product updated successfully", "success");
+    } else {
+        setSessionAlert("Error updating product: " . $conn->error, "error");
+    }
+
+    header("Location: ../products.php");
+} else if (isset($_GET["action"]) && isset($_GET["product-id"])) {
+    $action = $_GET["action"];
+    $productId = $_GET["product-id"];
+
+    if ($action == "del-product") {
+        if (!isAdmin()) die("403: Access denied");
+
+        $sql = "DELETE FROM product WHERE id = $productId;";
+        $res = $conn->query($sql);
+
+        if ($res) {
+            setSessionAlert("Product deleted successfully", "success");
+        } else {
+            setSessionAlert("Error deleting product: " . $conn->error, "error");
+        }
+
+        header("Location: ../products.php");
+    } else {
+        die("Forbidden");
+    }
 } elseif (isset($_POST["logout"])) {
     session_destroy();
     unset($_SESSION["user"]);

@@ -52,9 +52,9 @@ if (isAdmin()) echo "<a href='add-product.php'><button>Add product</button></a><
             echo "<a href='product-details.php?id=$id'><button>View more</button></a>";
             if (isAdmin()) {
                 echo "<a href='update-product.php?id=$id'><button>Edit</button></a>";
-                echo "<a href='services/process.php?action=del-product&id=$id'><button>Delete</button></a>";
+                echo "<a href='services/process.php?action=del-product&product-id=$id'><button>Delete</button></a>";
             } else {
-                echo "<a href='services/process.php?action=add-product-to-cart&id=$id'><button>Add to cart</button></a>";
+                echo "<a href='services/process.php?action=add-to-cart&product-id=$id'><button>Add to cart</button></a>";
             }
             echo "</td>";
             echo "</tr>";
