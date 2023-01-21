@@ -24,33 +24,41 @@ $product = $res->fetch_assoc();
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./assets/css/styles.css">
     <title>Update Product &bull; Site Name</title>
 </head>
 <body>
-<form action="services/process.php?product-id=<?php echo $product_id ?>" method="POST">
+<form action="services/process.php?product-id=<?php echo $product_id ?>" method="POST" id="update-product-form">
     <fieldset>
         <legend>Update Product</legend>
-        <label>
-            Product name: <input name="name" required value="<?php echo $product['name'] ?>">
-        </label>
-        <br>
-        <label>
-            Model: <input name="model" required value="<?php echo $product['model'] ?>">
-        </label>
-        <br>
-        <label>
-            Brand: <input name="brand" required value="<?php echo $product['brand'] ?>">
-        </label>
-        <br>
-        <label>
-            Description: <input name="description" required value="<?php echo $product['description'] ?>">
-        </label>
-        <br>
-        <label>
-            Price: <input type="number" name="price" required value="<?php echo $product['price'] ?>">
-        </label>
-        <br>
-        <input type="submit" value="Update Product" name="update-product">
+        <div class="auto-grid">
+            <div class="form-group">
+                <label>
+                    Product name <input name="name" required value="<?php echo $product['name'] ?>">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Model <input name="model" required value="<?php echo $product['model'] ?>">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Brand <input name="brand" required value="<?php echo $product['brand'] ?>">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Description <textarea name="description" rows="3" required><?= $product['description'] ?></textarea>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    Price <input type="number" name="price" required value="<?php echo $product['price'] ?>">
+                </label>
+            </div>
+        </div>
+        <button type="submit" name="update-product" class="my-2 primary">Update Product</button>
     </fieldset>
 </form>
 </body>

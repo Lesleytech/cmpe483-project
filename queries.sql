@@ -1,16 +1,16 @@
 CREATE TABLE user (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL DEFAULT UUID_SHORT() PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(64) NOT NULL,
     address VARCHAR(255) NOT NULL,
-    telephone VARCHAR(16) NOT NULL
+    phone VARCHAR(16) NOT NULL
 );
 
 CREATE TABLE product (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT NOT NULL DEFAULT UUID_SHORT() PRIMARY KEY,
     brand VARCHAR(50) NOT NULL,
     model VARCHAR(50) NOT NULL,
     name VARCHAR(50) NOT NULL,
@@ -21,17 +21,23 @@ CREATE TABLE product (
 
 CREATE TABLE purchase (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    user_id INT NOT NULL,
+    product_id BIGINT NOT NULL,
+    user_id BIGINT NOT NULL,
     date_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    is_purchased BIT NOT NULL DEFAULT 0,
-    amount INT NOT NULL DEFAULT 1,
+    purchased BIT NOT NULL DEFAULT 0,
+    quantity INT NOT NULL DEFAULT 1,
     FOREIGN KEY (product_id) REFERENCES product(id),
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO user (first_name, last_name, username, email, password, address, telephone)
-VALUES ('Lesley', 'Lafen', 'lafenlesley@gmail.com', '$2y$10$iQg.eRx8sWOm38my26VqAuTBgmLrp7XsZraBWocx05heQWf6eDXEG', 'Girne, TRNC', '+905338237807');
+# username: admin  password: admin
+INSERT INTO user (first_name, last_name, username, email, password, address, phone)
+VALUES ('Lesley', 'Lafen', 'admin', 'admin@comptech.com', '$2y$10$l3jF161dOnkWOcUuE6jFtO12NW2ZEUJpzr3sg4458U2O8THRj4p52', 'Girne, TRNC', '+90123456789');
 
-INSERT INTO product (brand, model, name, description, price)
-VALUES ('HP', 'MVL650', 'LCD Monitor', 'The best monitor description', 350);
+# username: johndoe  password: john@doe
+INSERT INTO user (first_name, last_name, username, email, password, address, phone)
+VALUES ('John', 'Doe', 'johndoe', 'johndoe@example.com', '$2y$10$5SFupZ1baREeYoj4XcAIkuvPwbaA2SeFV.TrA0M6PiAuIzJ8BCkom', 'Some Place, Some Country', '+90123456789');
+
+
+INSERT INTO product (name, brand, model, description, price)
+VALUES ('IPS Monitor', 'AOC', '27BEH', 'Full HD monitor with accurate color display. Perfect for movies and video games.', 350);

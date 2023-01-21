@@ -43,8 +43,21 @@ elseif (isset($_POST["register"])) {
     $username = mysqli_real_escape_string($conn, $_POST["username"]);
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
     $password = mysqli_real_escape_string($conn, $_POST["password"]);
+    $passwordRetype = mysqli_real_escape_string($conn, $_POST["password_retype"]);
     $address = mysqli_real_escape_string($conn, $_POST["address"]);
-    $telephone = mysqli_real_escape_string($conn, $_POST["telephone"]);
+    $phone = mysqli_real_escape_string($conn, $_POST["phone"]);
+
+    if ($username == 'admin' || $email == 'admin@comptech.com') {
+        setSessionAlert("Reserved username/email in use", "error");
+        header("Location: ../register.php");
+        exit();
+    }
+
+    if ($password != $passwordRetype) {
+        setSessionAlert("Passwords do not match", "error");
+        header("Location: ../register.php");
+        exit();
+    }
 
     $sql = "SELECT * FROM user WHERE email = '$email' OR username = '$username';";
     $res = $conn->query($sql);
@@ -65,8 +78,8 @@ elseif (isset($_POST["register"])) {
 
     $hashedPass = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO user (first_name, last_name, username, email, password, address, telephone) 
-            VALUES ('$firstName','$lastName','$username','$email','$hashedPass','$address','$telephone');";
+    $sql = "INSERT INTO user (first_name, last_name, username, email, password, address, phone) 
+            VALUES ('$firstName','$lastName','$username','$email','$hashedPass','$address','$phone');";
 
     $res = $conn->query($sql);
 
@@ -134,6 +147,32 @@ elseif (isset($_POST["register"])) {
             setSessionAlert("Product deleted successfully", "success");
         } else {
             setSessionAlert("Error deleting product: " . $conn->error, "error");
+        }
+
+        header("Location: ../products.php");
+    } elseif ($action == "add-to-cart") {
+        if (!isset($_SESSION["user"])) {
+            header("Location: login.php");
+            exit();
+        }
+
+        $uid = $_SESSION["user"]["id"];
+        $sql = "SELECT * FROM purchase WHERE product_id = $productId AND user_id = $uid AND purchased = 0;";
+        $res = $conn->query($sql);
+
+        if ($res->num_rows == 0) {
+            $sql = "INSERT INTO purchase (product_id, user_id) VALUES ($productId, $uid)";
+            $res = $conn->query($sql);
+        } else {
+            $rowId = $res->fetch_assoc()["id"];
+            $sql = "UPDATE purchase SET quantity = quantity + 1 WHERE id = $rowId";
+            $res = $conn->query($sql);
+        }
+
+        if ($res) {
+            setSessionAlert("Product added to cart", "success");
+        } else {
+            setSessionAlert("Error adding product to cart: " . $conn->error, "error");
         }
 
         header("Location: ../products.php");

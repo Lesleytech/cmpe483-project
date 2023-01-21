@@ -7,7 +7,10 @@ function setSessionAlert($message, $type)
 function showSessionAlert()
 {
     if (isset($_SESSION["alert"])) {
-        echo "<div>" . $_SESSION["alert"]["message"] . "</div>";
+        $message = $_SESSION["alert"]["message"];
+        $type = $_SESSION["alert"]["type"];
+
+        echo "<div class='alert $type'>$message</div>";
         unset($_SESSION["alert"]);
     }
 }
@@ -17,6 +20,28 @@ function isAdmin()
     if (!isset($_SESSION["user"])) return false;
 
     return $_SESSION["user"]["username"] == 'admin';
+}
+
+function showHeader()
+{
+    $username = $_SESSION["user"]["username"];
+
+    echo "<header>";
+    echo "<strong class='logo'>CompTech<sup>TM</sup></strong>";
+    echo "<div class='spacer'>";
+    echo "<span>Hello, $username</span>";
+    if (!isAdmin()) {
+        include "services/db_connect.php";
+
+        $sql = "SELECT * FROM purchase WHERE purchased = 0";
+        $res = $conn->query($sql);
+
+        echo "<a href='cart.php'><button class='primary'>My cart ($res->num_rows)</button></a>";
+        echo "<a href='history.php'><button class='info'>History</button></a>";
+    }
+    echo "<a href='logout.php'><button>Logout</button></a>";
+    echo "</div>";
+    echo "</header>";
 }
 
 ?>

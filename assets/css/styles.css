@@ -1,8 +1,228 @@
+:root {
+    --primary-color: #0275e8;
+    --border: 1px solid #969393;
+    font-size: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 2em 3em;
+    min-height: 100vh;
+    background-color: whitesmoke;
+}
+
+#login-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+fieldset {
+    border: 1px solid lightgray;
+    padding: 2.5em 4em;
+    background-color: white;
+}
+
+legend {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 0.25em;
+}
+
+.form-group label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    font-size: 0.875rem;
+}
+
+input, textarea {
+    border: var(--border);
+    font-size: 1rem;
+    padding: 0.5em;
+    border-radius: 3px;
+}
+
+input {
+    height: 40px;
+}
+
+input:focus, textarea:focus {
+    outline-color: var(--primary-color);
+}
+
+textarea {
+    resize: vertical;
+}
+
+/*button {*/
+/*    height: 40px;*/
+/*    padding: 0 2em;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*    font-size: 1rem;*/
+/*    border-radius: 3px;*/
+/*    background-color: var(--primary-color);*/
+/*    color: white;*/
+/*    font-weight: bold;*/
+/*}*/
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 table {
     width: 100%;
 }
 
 table, td, th {
-    border: 1px solid;
+    border: 1px solid lightgray;
     border-collapse: collapse;
+}
+
+td, th {
+    padding: 0.75em 1em;
+    text-align: center;
+}
+
+.page-logo {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1em 0 1.25em;
+    color: #445;
+}
+
+.alert {
+    padding: 1em;
+    margin: 1.5em 0;
+    border-radius: 3px;
+}
+
+.alert.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.auto-grid {
+    display: grid;
+    gap: 1.75em;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.my-2 {
+    margin: 2em 0;
+}
+
+#register-form {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: white;
+    border: 1px solid lightgray;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.5em 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.card-body {
+    padding: 1.5em;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.mr-1 {
+    margin-right: 1em;
+}
+
+#add-product-form, #update-product-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.spacer {
+    display: flex;
+    gap: 0.5em;
+    width: fit-content;
+    align-items: center;
+}
+
+button {
+    cursor: pointer;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    border: none;
+}
+
+button.secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+button.primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+button.danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+button.info {
+    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid lightgray;
+    background-color: white;
+    padding: 0.75em 1.25em;
+    margin-bottom: 1em;
+}
+
+header .logo {
+    font-size: 1.25rem;
+    color: #445;
 }
