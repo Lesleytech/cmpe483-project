@@ -220,6 +220,10 @@ header {
     background-color: white;
     padding: 0.75em 1.25em;
     margin-bottom: 1em;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 2em;
+    z-index: 99;
 }
 
 header .logo {
