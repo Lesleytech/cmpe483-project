@@ -36,6 +36,7 @@ CREATE TABLE purchase
 );
 
 # username: admin  password: admin
+# admin username and email is reserved and can only be created from this script. It can't be created from registration form.
 INSERT INTO user (first_name, last_name, username, email, password, address, phone)
 VALUES ('Lesley', 'Lafen', 'admin', 'admin@comptech.com',
         '$2y$10$l3jF161dOnkWOcUuE6jFtO12NW2ZEUJpzr3sg4458U2O8THRj4p52', 'Girne, TRNC', '+90123456789');
