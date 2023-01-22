@@ -47,7 +47,7 @@ if (isset($_GET["search"])) {
                     <th>Model</th>
                     <th>Brand</th>
                     <th>Price</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>

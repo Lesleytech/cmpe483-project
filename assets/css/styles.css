@@ -91,7 +91,7 @@ table, td, th {
 
 td, th {
     padding: 0.75em 1em;
-    text-align: center;
+    text-align: left;
 }
 
 .page-logo {
@@ -251,8 +251,4 @@ small {
 
 .text-center {
     text-align: center;
-}
-
-#details-table * {
-    text-align: left;
 }

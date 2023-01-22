@@ -42,7 +42,7 @@ $product = $res->fetch_assoc();
             </div>
         </div>
         <div class="card-body">
-            <table id="details-table">
+            <table>
                 <tbody>
                 <tr>
                     <td><b>Product name</b></td>

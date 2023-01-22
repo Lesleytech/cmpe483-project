@@ -40,9 +40,9 @@ $res = $conn->query($sql);
                     <th>Model</th>
                     <th>Brand</th>
                     <th>Price</th>
-                    <th>Quantity</th>
+                    <th class="text-center">Quantity</th>
                     <th>Total</th>
-                    <th>Action</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,7 +67,9 @@ $res = $conn->query($sql);
                         echo "</td>";
                         echo "<td>" . number_format($row["quantity"] * $row["price"], 2) . "</td>";
                         echo "<td>";
+                        echo "<div class='spacer mx-auto'>";
                         echo "<a href='services/process.php?action=del-in-cart&id=$purchase_id'><button class='danger'>Remove</button></a>";
+                        echo "</div>";
                         echo "</td>";
                         echo "</tr>";
                     }

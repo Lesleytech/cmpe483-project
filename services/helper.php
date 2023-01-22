@@ -28,7 +28,7 @@ function showHeader()
     $uid = $_SESSION["user"]["id"];
 
     echo "<header>";
-    echo "<a href='index.php'><strong class='logo'>CompTech<sup>TM</sup></strong></a>";
+    echo "<a href='index.php' class='logo'><strong>CompTech<sup>TM</sup></strong></a>";
     echo "<div class='spacer'>";
     echo "<span>Hello, $username</span>";
     if (!isAdmin()) {
