@@ -78,7 +78,7 @@ if (isset($_GET["search"])) {
                             echo "<a href='update-product.php?id=$id'><button class='secondary'>Edit</button></a>";
                             echo "<button onclick='handleProdDel(`$id`)' class='danger'>Delete</button>";
                         } else {
-                            echo "<a href='services/process.php?action=add-to-cart&product-id=$id' class='primary'><button class='primary'>Add to cart</button></a>";
+                            echo "<a href='services/process.php?action=add-to-cart&id=$id' class='primary'><button class='primary'>Add to cart</button></a>";
                         }
                         echo "</div>";
                         echo "</td>";

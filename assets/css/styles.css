@@ -225,4 +225,34 @@ header {
 header .logo {
     font-size: 1.25rem;
     color: #445;
+    text-decoration: none;
+}
+
+.checkout-container {
+    display: flex;
+    column-gap: 1em;
+}
+
+.checkout-container > div:first-child {
+    flex: 1;
+}
+
+.full-width {
+    width: 100%;
+}
+
+small {
+    font-size: 0.875rem;
+}
+
+.text-secondary {
+    color: #6c757d;
+}
+
+.text-center {
+    text-align: center;
+}
+
+#details-table * {
+    text-align: left;
 }

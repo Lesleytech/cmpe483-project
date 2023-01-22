@@ -23,24 +23,51 @@ $product = $res->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/styles.css">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
 <body>
-<h1><?php echo $product["name"] ?></h1>
-<p>
-    <span><b>Model:</b> <?php echo $product["model"] ?></span>
-    <span><b>Brand:</b> <?php echo $product["brand"] ?></span>
-    <span><b>Price:</b> <?php echo $product["price"] ?></span>
-</p>
-<p>
-    <?php echo $product["description"] ?>
-</p>
-<?php
-if (!isAdmin()) {
-    echo "<a href='services/process.php?action=add-product-to-cart&id=$product_id'><button>Add to cart</button></a>";
-
-}
-?>
+<?php showHeader(); ?>
+<main>
+    <div class="card">
+        <div class="card-title">
+            <span>Product details</span>
+            <div>
+                <?php if (!isAdmin()) { ?>
+                    <a href='services/process.php?action=add-to-cart&id=<?= $product_id ?>' class='primary'>
+                        <button class='primary'>Add to cart</button>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="details-table">
+                <tbody>
+                <tr>
+                    <td><b>Product name</b></td>
+                    <td><?= $product["name"] ?></td>
+                </tr>
+                <tr>
+                    <td><b>Model</b></td>
+                    <td><?= $product["model"] ?></td>
+                </tr>
+                <tr>
+                    <td><b>Brand</b></td>
+                    <td><?= $product["brand"] ?></td>
+                </tr>
+                <tr>
+                    <td><b>Price</b></td>
+                    <td><?= $product["price"] ?></td>
+                </tr>
+                <tr>
+                    <td><b>Description</b></td>
+                    <td><?= $product["description"] ?></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
 </body>
 </html>

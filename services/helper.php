@@ -25,15 +25,16 @@ function isAdmin()
 function showHeader()
 {
     $username = $_SESSION["user"]["username"];
+    $uid = $_SESSION["user"]["id"];
 
     echo "<header>";
-    echo "<strong class='logo'>CompTech<sup>TM</sup></strong>";
+    echo "<a href='index.php'><strong class='logo'>CompTech<sup>TM</sup></strong></a>";
     echo "<div class='spacer'>";
     echo "<span>Hello, $username</span>";
     if (!isAdmin()) {
         include "services/db_connect.php";
 
-        $sql = "SELECT * FROM purchase WHERE purchased = 0";
+        $sql = "SELECT * FROM purchase WHERE purchased = 0 AND user_id = $uid;";
         $res = $conn->query($sql);
 
         echo "<a href='cart.php'><button class='primary'>My cart ($res->num_rows)</button></a>";

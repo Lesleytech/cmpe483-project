@@ -17,6 +17,6 @@ function handleSignUp(e) {
 
 function handleProdDel(id) {
     if (confirm(`Are you sure to delete product with id "${id}"`)) {
-        window.location = `services/process.php?action=del-product&product-id=${id}`;
+        window.location = `services/process.php?action=del-product&id=${id}`;
     }
 }

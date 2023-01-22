@@ -114,7 +114,7 @@ elseif (isset($_POST["register"])) {
 } elseif (isset($_POST["update-product"]) && isset($_GET["product-id"])) {
     if (!isAdmin()) die ("403: Access denied");
 
-    $productId = $_GET["product-id"];
+    $entityId = $_GET["product-id"];
 
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $model = mysqli_real_escape_string($conn, $_POST["model"]);
@@ -123,7 +123,7 @@ elseif (isset($_POST["register"])) {
     $price = mysqli_real_escape_string($conn, $_POST["price"]);
 
     $sql = "UPDATE product SET name = '$name', model = '$model', brand = '$brand', description = '$description', price = '$price'
-    WHERE id = '$productId';";
+    WHERE id = '$entityId';";
     $res = $conn->query($sql);
 
     if ($res) {
@@ -133,14 +133,14 @@ elseif (isset($_POST["register"])) {
     }
 
     header("Location: ../products.php");
-} else if (isset($_GET["action"]) && isset($_GET["product-id"])) {
+} else if (isset($_GET["action"]) && isset($_GET["id"])) {
     $action = $_GET["action"];
-    $productId = $_GET["product-id"];
+    $entityId = $_GET["id"];
 
     if ($action == "del-product") {
         if (!isAdmin()) die("403: Access denied");
 
-        $sql = "DELETE FROM product WHERE id = $productId;";
+        $sql = "DELETE FROM product WHERE id = $entityId;";
         $res = $conn->query($sql);
 
         if ($res) {
@@ -157,11 +157,11 @@ elseif (isset($_POST["register"])) {
         }
 
         $uid = $_SESSION["user"]["id"];
-        $sql = "SELECT * FROM purchase WHERE product_id = $productId AND user_id = $uid AND purchased = 0;";
+        $sql = "SELECT * FROM purchase WHERE product_id = $entityId AND user_id = $uid AND purchased = 0;";
         $res = $conn->query($sql);
 
         if ($res->num_rows == 0) {
-            $sql = "INSERT INTO purchase (product_id, user_id) VALUES ($productId, $uid)";
+            $sql = "INSERT INTO purchase (product_id, user_id) VALUES ($entityId, $uid)";
             $res = $conn->query($sql);
         } else {
             $rowId = $res->fetch_assoc()["id"];
@@ -176,13 +176,87 @@ elseif (isset($_POST["register"])) {
         }
 
         header("Location: ../products.php");
+    } elseif ($action == 'dec-in-cart') {
+        if (!isset($_SESSION["user"])) {
+            header("Location: login.php");
+            exit();
+        }
+
+        $uid = $_SESSION["user"]["id"];
+
+        $sql = "SELECT * FROM purchase WHERE id = $entityId AND user_id = $uid;";
+        $res = $conn->query($sql);
+
+        if ($res->num_rows > 0) {
+            $row = $res->fetch_assoc();
+
+            if ($row["quantity"] == 1) {
+                $sql = "DELETE FROM purchase WHERE id = $entityId;";
+            } else {
+                $sql = "UPDATE purchase SET quantity = quantity - 1 WHERE id = $entityId;";
+            }
+
+            $res = $conn->query($sql);
+
+            if (!$res) {
+                setSessionAlert("Error performing action: " . $conn->error, "error");
+            }
+
+            header("Location: ../cart.php");
+        } else {
+            die("Purchase with id $entityId not found");
+        }
+    } elseif ($action == 'inc-in-cart') {
+        if (!isset($_SESSION["user"])) {
+            header("Location: login.php");
+            exit();
+        }
+
+        $uid = $_SESSION["user"]["id"];
+
+        $sql = "UPDATE purchase SET quantity = quantity + 1 WHERE id = $entityId AND user_id = $uid;";
+        $res = $conn->query($sql);
+
+        if (!$res) {
+            setSessionAlert("Error performing action: " . $conn->error, "error");
+        }
+
+        header("Location: ../cart.php");
+    } elseif ($action == 'del-in-cart') {
+        if (!isset($_SESSION["user"])) {
+            header("Location: login.php");
+            exit();
+        }
+        $uid = $_SESSION["user"]["id"];
+
+        $sql = "DELETE FROM purchase WHERE id = $entityId AND user_id = $uid;";
+        $res = $conn->query($sql);
+
+        if (!$res) {
+            setSessionAlert("Error performing action: " . $conn->error, "error");
+        }
+
+        header("Location: ../cart.php");
     } else {
         die("Forbidden");
     }
-} elseif (isset($_POST["logout"])) {
-    session_destroy();
-    unset($_SESSION["user"]);
-    header("Location: ../login.php");
+} else if (isset($_POST["confirm-payment"])) {
+    if (!isset($_SESSION["user"])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    $uid = $_SESSION["user"]["id"];
+    $sql = "UPDATE purchase SET purchased = 1 WHERE user_id = $uid AND purchased = 0;";
+    $res = $conn->query($sql);
+
+    if ($res) {
+        setSessionAlert("Thanks for your purchase! Payment was successful", "success");
+    } else {
+        setSessionAlert("Error completing payment: " . $conn->error, "error");
+    }
+
+    header("Location: ../products.php");
 } else {
     die("Forbidden");
 }
