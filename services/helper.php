@@ -34,10 +34,11 @@ function showHeader()
     if (!isAdmin()) {
         include "services/db_connect.php";
 
-        $sql = "SELECT * FROM purchase WHERE purchased = 0 AND user_id = $uid;";
+        $sql = "SELECT SUM(quantity) as numItems FROM purchase WHERE purchased = 0 AND user_id = $uid;";
         $res = $conn->query($sql);
+        $numItems = $res->fetch_assoc()["numItems"];
 
-        echo "<a href='cart.php'><button class='primary'>My cart ($res->num_rows)</button></a>";
+        echo "<a href='cart.php'><button class='primary'>My cart (" . ($numItems ? $numItems : 0) . ")</button></a>";
         echo "<a href='history.php'><button class='info'>History</button></a>";
     }
     echo "<a href='logout.php'><button>Logout</button></a>";
